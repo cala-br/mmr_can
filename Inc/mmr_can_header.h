@@ -24,14 +24,22 @@ typedef enum {
 } MmrCanMessageType;
 
 
+typedef enum {
+  MMR_CAN_PRIORITY_LOW = B_(0100),
+  MMR_CAN_PRIORITY_NORMAL = B_(0010),
+  MMR_CAN_PRIORITY_HIGH = B_(0001),
+} MmrCanMessagePriority;
+
+
 /**
  * @brief
  * This struct encodes the values stored inside the
  * extended id field of a CAN packet.
  */
 typedef struct {
-  uint32_t priority : 5;
-  uint32_t senderId : 23;
+  MmrCanMessagePriority priority : 3;
+  uint32_t dictionaryEntry : 10;
+  uint32_t senderId : 12;
   MmrCanMessageType messageType : 4;
 } MmrCanHeader;
 
