@@ -10,7 +10,7 @@ typedef struct {
   CanHandle *handle;
   uint8_t *result;
   struct {
-    CanRxHeader can;
+    CanRxHeader rx;
     MmrCanHeader mmr;
   } headers;
 
@@ -63,7 +63,7 @@ static HalStatus receiveAll(ReceptionParams *rp) {
 
 static HalStatus receiveOne(ReceptionParams *rp) {
   HalStatus status =
-    HAL_CAN_GetRxMessage(rp->hcan, rp->fifo, &(rp->headers.can), rp->result);
+    HAL_CAN_GetRxMessage(rp->hcan, rp->fifo, &(rp->headers.rx), rp->result);
 
   rp->headers.mmr = convertTo(MmrCanHeader, header->ExtId);
   return status;
