@@ -24,6 +24,7 @@ typedef enum {
 } MmrCanMessageType;
 
 
+
 typedef enum {
   MMR_CAN_MESSAGE_PRIORITY_LOW = B_(0010),
   MMR_CAN_MESSAGE_PRIORITY_NORMAL = B_(0001),
