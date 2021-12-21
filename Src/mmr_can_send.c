@@ -8,6 +8,7 @@ static HalStatus sendMulti(CanHandle *hcan, CanTxHeader *header, MmrCanPacket *p
 static HalStatus sendSingleMultiFrame(CanHandle *hcan, CanTxHeader *header, MmrCanPacket *packet, uint8_t *offset);
 static uint8_t computeFramesToSend(MmrCanPacket *packet);
 static uint8_t computeNextMessageLength(MmrCanPacket *packet, uint8_t offset);
+static void setMessageType(CanTxHeader *header, MmrCanMessageType type);
 
 
 HalStatus MMR_CAN_Send(CanHandle *hcan, MmrCanPacket packet) {
@@ -30,7 +31,7 @@ static HalStatus sendNormal(
   CanTxHeader *header,
   MmrCanPacket *packet
 ) {
-  header->ExtId |= MMR_CAN_MESSAGE_TYPE_NORMAL;
+  setMessageType(header, MMR_CAN_MESSAGE_TYPE_NORMAL);
   return
     HAL_CAN_AddTxMessage(hcan, header, packet->data, packet->mailbox);
 }
@@ -45,11 +46,11 @@ static HalStatus sendMulti(
   uint8_t offset = 0;
   uint8_t framesToSend = computeFramesToSend(packet);
 
-  header->ExtId |= MMR_CAN_MESSAGE_TYPE_MULTI_FRAME;
+  setMessageType(header, MMR_CAN_MESSAGE_TYPE_MULTI_FRAME);
   do {
     bool isLastFrame = framesToSend <= 1;
     if (isLastFrame) {
-      header->ExtId |= MMR_CAN_MESSAGE_TYPE_MULTI_FRAME_END;
+      setMessageType(header, MMR_CAN_MESSAGE_TYPE_MULTI_FRAME_END);
     }
 
     status |=
@@ -127,4 +128,8 @@ static uint8_t computeNextMessageLength(MmrCanPacket *packet, uint8_t offset) {
   return min(
     remainingBytes, MMR_CAN_MAX_DATA_LENGTH
   );
+}
+
+static always_inline void setMessageType(CanTxHeader *header, MmrCanMessageType type) {
+  interpretAs(MmrCanHeader*, header->ExtId)->messageType = type;
 }
