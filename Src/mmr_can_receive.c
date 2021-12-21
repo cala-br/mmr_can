@@ -38,7 +38,7 @@ HalStatus MMR_CAN_Receive(CanHandle *hcan, MmrCanMessage *result) {
     return status;
   }
 
-  result->senderId = rp.headers.mmr.senderId;
+  result->header = rp.headers.mmr;
   if (MMR_CAN_IsMultiFrame(&rp.headers.mmr)) {
     status |= receiveAll(&rp);
   }
