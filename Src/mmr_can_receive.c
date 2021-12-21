@@ -1,9 +1,11 @@
 #include <stdbool.h>
 #include "mmr_can.h"
 
+
 typedef struct {
   CanHandle *handle;
   uint8_t *result;
+
   struct {
     CanRxHeader rx;
     MmrCanHeader mmr;
@@ -11,6 +13,7 @@ typedef struct {
 
   uint8_t fifo;
 } ReceptionParams;
+
 
 static HalStatus receiveOne(ReceptionParams *rp);
 static HalStatus receiveAll(ReceptionParams *rp);
@@ -28,7 +31,7 @@ static bool headerIsMultiFrame(MmrCanHeader *header, CanId targetId);
 HalStatus MMR_CAN_Receive(CanHandle *hcan, MmrCanMessage *result) {
   ReceptionParams rp = {
     .handle = hcan,
-    .result = interpretAs(uint8_t*, result->store),
+    .result = (uint8_t*)result->store,
     .fifo = MMR_CAN_RX_FIFO,
   };
 
