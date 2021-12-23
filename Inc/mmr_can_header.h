@@ -45,6 +45,9 @@ typedef struct {
 } MmrCanHeader;
 
 
+uint32_t *MMR_CAN_HeaderToBits(MmrCanHeader *header);
+MmrCanHeader *MMR_CAN_HeaderFromBits(uint32_t *bits);
+
 bool MMR_CAN_IsMultiFrame(MmrCanHeader *header);
 bool MMR_CAN_IsMultiFrameEnd(MmrCanHeader *header);
 
