@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "mmr_can_util.h"
 #include "mmr_can_binary_literals.h"
+#include "mmr_can_message_id.h"
 
 /**
  * @brief
@@ -39,7 +40,7 @@ typedef enum {
  */
 typedef struct {
   MmrCanMessagePriority priority : 3;
-  uint32_t messageId : 10;
+  MmrCanMessageId messageId : 10;
   uint32_t senderId : 12;
   MmrCanMessageType messageType : 4;
 } MmrCanHeader;
