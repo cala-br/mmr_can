@@ -39,7 +39,7 @@ typedef enum {
  */
 typedef struct {
   MmrCanMessagePriority priority : 3;
-  uint32_t dictionaryEntry : 10;
+  uint32_t messageId : 10;
   uint32_t senderId : 12;
   MmrCanMessageType messageType : 4;
 } MmrCanHeader;
